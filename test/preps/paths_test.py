@@ -10,7 +10,10 @@ def fragment_dirname():
 def test_prepaths(fragment_dirname):
     path_fragnames = ['user_paths.yaml', 'admin_paths.yaml']
     expected_paths = ['/users/base', '/users/enterprise', '/admin']
-
     paths = prepaths(fragment_dirname, path_fragnames)
+    
     for path in expected_paths:
         assert path in paths
+        del paths[path]
+
+    assert paths == {}

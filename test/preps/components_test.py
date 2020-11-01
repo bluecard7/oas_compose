@@ -13,14 +13,21 @@ def test_components(fragment_dirname):
         'error_component.yaml',
         'param_components.yaml',
     ]
-
     expected_components = {
         'schemas': ['User', 'Error'], 
         'parameters': ['offsetParam', 'limitParam']
     }
-
     components = precomponents(fragment_dirname, component_fragnames)
+
     for component_type, modelnames in expected_components.items():
         assert component_type in components
+        models = components[component_type]
+        
         for modelname in modelnames:
-            assert modelname in components[component_type]
+            assert modelname in models
+            del models[modelname]
+
+        assert models == {}
+        del components[component_type]
+    
+    assert components == {}
