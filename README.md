@@ -62,6 +62,10 @@ servers:
   - url: http://staging-api.example.com
     description: Optional server description, e.g. Internal staging server for testing
 
+# The fields below are preprocessor labels. 
+# They are identified by the 'pre' prefixing the field name that it stands in for
+# There are corresponding functions named the same as the labels in the preps module,
+# the actual preprocesseors that prep the files
 prepaths:
   - some_path_fragment1.yaml
   - some_path_fragment2.yaml
