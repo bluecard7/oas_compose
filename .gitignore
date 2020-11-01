@@ -2,3 +2,4 @@ openapi/
 openapi.yaml
 api/
 __pycache__
+.pytest_cache
