@@ -19,15 +19,11 @@ def test_components(fragment_dirname):
     }
     components = precomponents(fragment_dirname, component_fragnames)
 
+    assert len(components) == len(expected_components)
     for component_type, modelnames in expected_components.items():
         assert component_type in components
         models = components[component_type]
+        assert len(models) == len(modelnames)
         
         for modelname in modelnames:
             assert modelname in models
-            del models[modelname]
-
-        assert models == {}
-        del components[component_type]
-    
-    assert components == {}

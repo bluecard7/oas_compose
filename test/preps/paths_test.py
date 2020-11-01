@@ -12,8 +12,7 @@ def test_prepaths(fragment_dirname):
     expected_paths = ['/users/base', '/users/enterprise', '/admin']
     paths = prepaths(fragment_dirname, path_fragnames)
     
+    assert len(paths) == len(expected_paths)
+    
     for path in expected_paths:
         assert path in paths
-        del paths[path]
-
-    assert paths == {}
