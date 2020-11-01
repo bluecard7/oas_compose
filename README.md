@@ -28,27 +28,90 @@ More on this in the [Usage](#usage) section.
 ## Usage
 To run the script: 
 ```
-python -m compose.entry -h
+python -m compose.entry
 usage: entry.py [-h] [-d FRAGMENT_DIRNAME] [-r ROOT_FRAGNAME] [-o SPECNAME]
 
 Compose OAS spec from fragments
 
 optional arguments:
 -h, --help           show this help message and exit
--d FRAGMENT_DIRNAME  directory containing OAS fragments
+-d FRAGMENT_DIRNAME  directory containing OAS fragments (default: openapi)
 -r ROOT_FRAGNAME     name of fragment to start writing spec from, should be
-                     in fragment_dir
--o SPECNAME          name of file to write spec to
+                     in fragment_dir (default: root.yaml)
+-o SPECNAME          name of file to write spec to (default: openapi.yaml)
 ```
 To run unit tests:
 ```python
 pytest
+``` 
+
+### Examples of fragments:
+
+root.yaml
+```yaml
+openapi: 3.0.0
+
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://staging-api.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+
+prepaths:
+  - some_path_fragment1.yaml
+  - some_path_fragment2.yaml
+
+precomponents:
+  - some_component_fragment1.yaml
+  - some_component_fragment2.yaml
+  - some_component_fragment3.yaml
+``` 
+
+some_path_fragment.yaml
+```yaml
+/admin:
+  get:
+    summary: Returns a list of users.
+    description: Optional extended description in CommonMark or HTML.
+    responses:
+    '200':    # status code
+      description: A JSON array of user names
+      content:
+        application/json:
+          schema: 
+            type: array
+          items: 
+            type: string
 ```
 
+some_component_fragment.yaml
+```yaml
+parameters:
+  offsetParam:
+    name: offset
+    in: query
+    description: Number of items to skip before returning the results.
+    required: false
+    schema:
+      type: integer
+      format: int32
+      minimum: 0
+      default: 0
 
-## Possible extentions
-- schemas of objects as python objects (futher utilizing pyyaml)
-- define types and recursively walk through the tree to allow further simplicfications
-in Info, components, etc.
-(I tried using typing module to handle lists and dicts)
-- BUT biggest pain points for me were the paths and components, which are at the top level of the OpenAPI object hiearchy, so I can't convince myself to go any further
+  limitParam:
+    name: limit
+    in: query
+    description: Maximum number of items to return.
+    required: false
+    schema:
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 100
+      default: 20
+```
