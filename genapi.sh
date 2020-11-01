@@ -1,0 +1,1 @@
+docker run --rm -v $(pwd):/local openapitools/openapi-generator-cli generate -i /local/openapi.yaml -g go-server -o /local/api
