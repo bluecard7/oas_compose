@@ -1,8 +1,8 @@
 import yaml
 
-from oas_objects.openapi import OpenAPI
-from prep_loader import PrepLoader
-from errormsg import fieldrequiredmsg
+from compose.oas_objects.openapi import OpenAPI
+from compose.prep_loader import PrepLoader
+from compose.errormsg import fieldrequiredmsg
 
 class OASSpecWriter:
     def __init__(self, fragment_dirname, root_fragname, specname):

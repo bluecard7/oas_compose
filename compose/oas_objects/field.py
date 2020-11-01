@@ -1,5 +1,3 @@
-import typing
-
 class FieldDesc:
     def __init__(self, required=False):
         self.required = required

@@ -1,6 +1,6 @@
 import argparse
 
-from oas_writer import OASSpecWriter
+from compose.oas_writer import OASSpecWriter
 
 def compose(fragment_dirname, root_fragname, specname):
     writer = OASSpecWriter(fragment_dirname, root_fragname, specname)

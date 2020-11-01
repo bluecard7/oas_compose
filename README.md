@@ -24,6 +24,16 @@ To smooth these bumps out, oas-compose organizes the overall spec file into frag
     - ???
 
 ## Usage
+To run the script: 
+```python
+    python -m 
+```
+To run unit tests: python -m unittest discover -v -s test
+
+Note: running this project as a script with -m to unify method of running 
+both unittests and 
+Also, since the tests hit the src code as well, imports don't work properly when running 
+
 (...talk about how fragments look like, etc.)
 
 ## How to navigate this repository
