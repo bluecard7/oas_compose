@@ -1,43 +1,50 @@
-# oas-compose
-oas-compose is what kustomize is for k8 config, but for OpenAPI specfication.
-This tool is only meant for OAS v3.0.0+ and yaml.
+# oas_compose
+Usable only for OAS v3.0 in yaml forn.
 
-## Why does this exist?
-OpenAPI is a specification that defines APIs in a well defined format.
-It also comes with a great suite of extensions. 
-There's Swagger UI that allows you to visualize and play with the APIs on a browser,
-and openapi-generator that can generate client and server code in many popular languages.
+## What's OpenAPI?
+Here's an introduction straight from their [website](https://swagger.io/specification/):
 
-Unlike the conveniences that come with it, the spec file itself can be hard to manage.
+> The OpenAPI Specification (OAS) defines a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection. When properly defined, a consumer can understand and interact with the remote service with a minimal amount of implementation logic.
+
+> An OpenAPI definition can then be used by documentation generation tools to display the API, code generation tools to generate servers and clients in various programming languages, testing tools, and many other use cases.
+
+## Why oas_compose?
+OpenAPI is a great tool, but the spec file itself can be hard to manage.
+
 As development happens, things change, including the API.
 This means editing the response that a path returns, editing a request a path accepts, adding paths, deleting schema - the list goes on.
-And these changes tend to cause merge conflicts in a file that easily spans 
-100s of lines.
-Not only that, but it becomes increasingly harder to navigate as the API grows.
-To smooth these bumps out, oas-compose organizes the overall spec file into fragments, pieces of the specification that are contained in their own file.
+And these changes tend to cause frequent merge conflicts in a file that easily spans 
+hundreds of lines. 
+Not only that, but it becomes harder to navigate as the API grows.
 
-## Features as of 10/29/20
-- P(riority) 0:
-    - store paths in separate files
-    - store components in separate files
-- P1
-    - ???
+With oas_compose, a developer can organize sections of the monolithic spec as smaller files/fragments. 
+Then they can use the script to compose the full spec from the fragments.
+More on this in the [Usage](#usage) section.
+
+## Features
+- store paths in separate files
+- store components in separate files
 
 ## Usage
 To run the script: 
-```python
-    python -m 
 ```
-To run unit tests: python -m unittest discover -v -s test
+python -m compose.entry -h
+usage: entry.py [-h] [-d FRAGMENT_DIRNAME] [-r ROOT_FRAGNAME] [-o SPECNAME]
 
-Note: running this project as a script with -m to unify method of running 
-both unittests and 
-Also, since the tests hit the src code as well, imports don't work properly when running 
+Compose OAS spec from fragments
 
-(...talk about how fragments look like, etc.)
+optional arguments:
+-h, --help           show this help message and exit
+-d FRAGMENT_DIRNAME  directory containing OAS fragments
+-r ROOT_FRAGNAME     name of fragment to start writing spec from, should be
+                     in fragment_dir
+-o SPECNAME          name of file to write spec to
+```
+To run unit tests:
+```python
+pytest
+```
 
-## How to navigate this repository
-Start from src/compose.py
 
 ## Possible extentions
 - schemas of objects as python objects (futher utilizing pyyaml)
@@ -45,7 +52,3 @@ Start from src/compose.py
 in Info, components, etc.
 (I tried using typing module to handle lists and dicts)
 - BUT biggest pain points for me were the paths and components, which are at the top level of the OpenAPI object hiearchy, so I can't convince myself to go any further
-
-## Future Tasks/Experiments:
-- unit tests
-- benchmarks converting text to yaml and back to text vs just doing text, del vs no del
